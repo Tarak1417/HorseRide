@@ -3,9 +3,9 @@ import { useLocation, Link } from 'react-router-dom';
 
 const Booking = () => {
   const location = useLocation();
-  const { horse, date, name, address } = location.state || {};
+  const { horse, date, name, address, image } = location.state || {};
 
-  if (!horse || !date || !name || !address) {
+  if (!horse || !date || !name || !address || !image) {
     return <p>No booking details found.</p>;
   }
 
@@ -33,6 +33,7 @@ const Booking = () => {
       <p className="booking-info">Thank you, {name}, for booking a ride with {horseName}.</p>
       <p className="booking-info">Your ride is scheduled for {formattedDate}.</p>
       <p className="booking-info">Your address: {address}</p>
+      <img src={image} alt={horseName} className="horse-image" />
       <Link to="/">
         <button className="back-button">Back to Home</button>
       </Link>

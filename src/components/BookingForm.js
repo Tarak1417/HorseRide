@@ -1,17 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import thunderImage from '../images/dark.jpeg';
+import lightningImage from '../images/light.jpeg';
+import stormImage from '../images/speed.jpeg';
+import breezeImage from '../images/thunderstorm.jpeg';
 
 const horses = [
-  { id: 1, name: 'Thunder' },
-  { id: 2, name: 'Lightning' },
-  { id: 3, name: 'Storm' },
-  { id: 4, name: 'Breeze' },
+  { id: 1, name: 'Thunder', image: thunderImage },
+  { id: 2, name: 'Lightning', image: lightningImage },
+  { id: 3, name: 'Storm', image: stormImage },
+  { id: 4, name: 'Breeze', image: breezeImage },
 ];
 
 const BookingForm = () => {
-  const [horse, setHorse] = useState(horses[0].id);
+  const location = useLocation();
+  const initialHorseId = location.state ? location.state.horse : horses[0].id;
+
+  const [horse, setHorse] = useState(initialHorseId);
   const [date, setDate] = useState(new Date());
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -19,13 +26,20 @@ const BookingForm = () => {
   const [address, setAddress] = useState('');
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (location.state && location.state.horse) {
+      setHorse(location.state.horse);
+    }
+  }, [location.state]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!(date instanceof Date) || isNaN(date)) {
       console.error('Invalid date:', date);
       return;
     }
-    navigate('/confirmation', { state: { horse, date, name, email, phone, address } });
+    const selectedHorse = horses.find(h => h.id === parseInt(horse));
+    navigate('/confirmation', { state: { horse, date, name, email, phone, address, image: selectedHorse.image } });
   };
 
   const handleDateChange = (date) => {
