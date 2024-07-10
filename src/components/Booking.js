@@ -1,13 +1,11 @@
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 
-import TrackLocation from './TrackLocation';
-
 const Booking = () => {
   const location = useLocation();
-  const { horse, date, name } = location.state || {};
+  const { horse, date, name, address } = location.state || {};
 
-  if (!horse || !date || !name) {
+  if (!horse || !date || !name || !address) {
     return <p>No booking details found.</p>;
   }
 
@@ -30,15 +28,14 @@ const Booking = () => {
   });
 
   return (
-    <div>
+    <div className="booking">
       <h1>Booking Confirmed!</h1>
-      <p>Thank you, {name}, for booking a ride with {horseName}.</p>
-      <p>Your ride is scheduled for {formattedDate}.</p>
+      <p className="booking-info">Thank you, {name}, for booking a ride with {horseName}.</p>
+      <p className="booking-info">Your ride is scheduled for {formattedDate}.</p>
+      <p className="booking-info">Your address: {address}</p>
       <Link to="/">
-        <button>Back to Home</button>
+        <button className="back-button">Back to Home</button>
       </Link>
-
-      <TrackLocation/>
     </div>
   );
 };

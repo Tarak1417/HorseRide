@@ -16,20 +16,37 @@ const BookingForm = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate('/confirmation', { state: { horse, date, name } });
+    if (!(date instanceof Date) || isNaN(date)) {
+      console.error('Invalid date:', date);
+      return;
+    }
+    navigate('/confirmation', { state: { horse, date, name, email, phone, address } });
+  };
+
+  const handleDateChange = (date) => {
+    if (date instanceof Date && !isNaN(date)) {
+      setDate(date);
+    } else {
+      console.error('Invalid date:', date);
+    }
   };
 
   return (
-    <div>
-      <h1>Book Your Ride</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
+    <div className="booking-form">
+      <h1 className="form-title">Book Your Ride</h1>
+      <form onSubmit={handleSubmit} className="form">
+        <label className="form-label">
           Horse:
-          <select value={horse} onChange={(e) => setHorse(e.target.value)}>
+          <select
+            value={horse}
+            onChange={(e) => setHorse(e.target.value)}
+            className="form-input"
+          >
             {horses.map((horse) => (
               <option key={horse.id} value={horse.id}>
                 {horse.name}
@@ -37,43 +54,56 @@ const BookingForm = () => {
             ))}
           </select>
         </label>
-        <label>
+        <label className="form-label">
           Date and Time:
           <DatePicker
             selected={date}
-            onChange={(date) => setDate(date)}
+            onChange={handleDateChange}
             showTimeSelect
             timeIntervals={60}
             minTime={new Date().setHours(15, 0)}
             maxTime={new Date().setHours(23, 0)}
             dateFormat="MMMM d, yyyy h:mm aa"
+            className="form-input"
           />
         </label>
-        <label>
+        <label className="form-label">
           Name:
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            className="form-input"
           />
         </label>
-        <label>
+        <label className="form-label">
           Email:
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="form-input"
           />
         </label>
-        <label>
+        <label className="form-label">
           Phone:
           <input
             type="tel"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
+            className="form-input"
           />
         </label>
-        <button type="submit">Submit</button>
+        <label className="form-label">
+          Address:
+          <input
+            type="text"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            className="form-input"
+          />
+        </label>
+        <button type="submit" className="submit-button">Submit</button>
       </form>
     </div>
   );
