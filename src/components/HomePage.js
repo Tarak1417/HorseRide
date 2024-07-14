@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link,useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -9,6 +9,7 @@ import stormImage from '../images/speed.jpeg';
 import breezeImage from '../images/thunderstorm.jpeg';
 import playIcon from '../images/play_icon.png';
 import videoSrc from "../images/8625210-hd_1920_1080_30fps.mp4";  
+
 const HomePage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
@@ -39,17 +40,14 @@ const HomePage = () => {
     autoplaySpeed: 3000,
   };
 
-  const GettolandingPage=()=>{
-    navigate("/landing")
-  }
+  const GettolandingPage = () => {
+    navigate("/landing");
+  };
 
   return (
     <div className="home-page">
       <nav>
-        <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/landing">Landing</Link></li>
-        </ul>
+        
         <div>
           {isLoggedIn ? (
             <button onClick={handleLoginLogout}>Logout</button>
@@ -58,9 +56,8 @@ const HomePage = () => {
           )}
         </div>
       </nav>
-      
       <div className="slider-container">
-      <button  type="button"className='btn-primary' onClick={GettolandingPage}>Get Rent</button>
+        <button type="button" className='btn-primary' onClick={GettolandingPage}>Get Rent</button>
         <Slider {...settings}>
           {horses.map((horse, index) => (
             <div key={index} onClick={handleImageClick}>
